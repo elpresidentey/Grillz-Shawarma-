@@ -82,4 +82,12 @@ export const useAnalytics = () => {
   };
 };
 
+export const useAnalytics = () => {
+  return {
+    trackEvent,
+    trackPageView,
+    trackPurchase,
+  };
+};
+
 export default GoogleAnalytics;

@@ -8,7 +8,6 @@ import Footer from './components/Footer';
 import Cart from './components/Cart';
 import OrderHistory from './components/OrderHistory';
 import ErrorBoundary from './components/ErrorBoundary';
-import GoogleAnalytics from './components/GoogleAnalytics';
 import { CartProvider } from './context/CartContext';
 import { ToastProvider } from './components/Toast';
 import { useAnalytics } from './components/GoogleAnalytics';
