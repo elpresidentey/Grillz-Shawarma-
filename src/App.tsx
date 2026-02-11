@@ -13,7 +13,7 @@ function App() {
           Lagos Shawarma & Grills
         </h1>
         <p className="text-center text-gray-600 mt-4">
-          Full features loading soon...
+          Full features loading soon... Updated!
         </p>
       </div>
     </div>
