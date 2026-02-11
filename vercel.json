@@ -15,5 +15,8 @@
       "dest": "/index.html",
       "status": 200
     }
-  ]
+  ],
+  "env": {
+    "REACT_APP_ENVIRONMENT": "production"
+  }
 }
