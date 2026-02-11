@@ -5,7 +5,6 @@ import {
   PlusIcon, 
   MinusIcon,
   TrashIcon,
-  CreditCardIcon,
   MapPinIcon,
   ClockIcon,
   UserIcon,

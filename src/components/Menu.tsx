@@ -14,11 +14,6 @@ const Menu: React.FC = () => {
   const [quantity, setQuantity] = useState(1);
   const [customizations, setCustomizations] = useState<string[]>([]);
 
-  // Memoize expensive calculations
-  const currentCategoryItems = useMemo(() => {
-    return menuData.find((cat) => cat.id === selectedCategory)?.items || [];
-  }, [selectedCategory]);
-
   const formatPrice = useCallback((price: number): string => {
     return `₦${price.toLocaleString()}`;
   }, []);
