@@ -22,15 +22,15 @@
   },
   "scripts": {
     "start": "cross-env PORT=3001 react-scripts start",
-    "build": "cross-env REACT_APP_ENVIRONMENT=production react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test -- --coverage --watchAll=false",
     "test:watch": "react-scripts test",
     "test:coverage": "react-scripts test -- --coverage --watchAll=false",
     "eject": "react-scripts eject",
     "analyze": "npm run build && npx bundle-analyzer build/static/js/*.js",
     "serve": "npm run build && npx serve -s build -l 3000",
-    "deploy:staging": "cross-env REACT_APP_ENVIRONMENT=staging npm run build",
-    "deploy:production": "cross-env REACT_APP_ENVIRONMENT=production npm run build"
+    "deploy:staging": "REACT_APP_ENVIRONMENT=staging npm run build",
+    "deploy:production": "REACT_APP_ENVIRONMENT=production npm run build"
   },
   "eslintConfig": {
     "extends": [
