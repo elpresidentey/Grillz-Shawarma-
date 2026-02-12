@@ -12,7 +12,6 @@ import GoogleAnalytics from './components/GoogleAnalytics';
 import { CartProvider } from './context/CartContext';
 import { ToastProvider } from './components/Toast';
 import { useAnalytics } from './components/GoogleAnalytics';
-import config from './config';
 
 function App() {
   const [showOrderHistory, setShowOrderHistory] = useState(false);
