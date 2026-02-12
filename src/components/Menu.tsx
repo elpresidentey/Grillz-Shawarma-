@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { menuData } from '../data/menuData';
 import { MenuItem } from '../types/menu';
 import { useCartHelpers } from '../context/CartContext';
@@ -13,11 +13,6 @@ const Menu: React.FC = () => {
   const [showCustomization, setShowCustomization] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [customizations, setCustomizations] = useState<string[]>([]);
-
-  // Memoize expensive calculations
-  const currentCategoryItems = useMemo(() => {
-    return menuData.find((cat) => cat.id === selectedCategory)?.items || [];
-  }, [selectedCategory]);
 
   const formatPrice = useCallback((price: number): string => {
     return `₦${price.toLocaleString()}`;
