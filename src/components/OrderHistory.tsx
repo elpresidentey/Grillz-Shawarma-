@@ -2,93 +2,16 @@ import React, { useState } from 'react';
 import { ClockIcon, FireIcon, HeartIcon, ShoppingCartIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { useToast } from './Toast';
 import { useCartHelpers } from '../context/CartContext';
-
-interface OrderItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  customizations?: string[];
-  specialInstructions?: string;
-  description?: string;
-}
-
-interface Order {
-  id: string;
-  date: string;
-  total: number;
-  status: 'completed' | 'delivered' | 'cancelled';
-  items: OrderItem[];
-  deliveryTime: string;
-  rating?: number;
-  isFavorite?: boolean;
-}
+import { useOrderHelpers, useOrders } from '../context/OrderContext';
 
 const OrderHistory: React.FC = () => {
   const { addToast } = useToast();
   const { addToCart } = useCartHelpers();
+  const { state: orderState } = useOrders();
+  const { toggleFavorite } = useOrderHelpers();
   const [reorderingOrderId, setReorderingOrderId] = useState<string | null>(null);
-  const [orders, setOrders] = useState<Order[]>([
-    {
-      id: 'ORD-001',
-      date: '2026-02-08',
-      total: 3500,
-      status: 'delivered',
-      deliveryTime: '35 minutes',
-      rating: 5,
-      isFavorite: true,
-      items: [
-        {
-          id: 'couple-combo',
-          name: 'Couple Combo',
-          price: 3500,
-          quantity: 1,
-          customizations: ['Extra Spicy'],
-          specialInstructions: 'Please deliver to reception'
-        }
-      ]
-    },
-    {
-      id: 'ORD-002',
-      date: '2026-02-05',
-      total: 2000,
-      status: 'delivered',
-      deliveryTime: '28 minutes',
-      rating: 4,
-      items: [
-        {
-          id: 'chicken-shawarma',
-          name: 'Chicken Shawarma',
-          price: 1500,
-          quantity: 1
-        },
-        {
-          id: 'soft-drink',
-          name: 'Soft Drink',
-          price: 500,
-          quantity: 1
-        }
-      ]
-    },
-    {
-      id: 'ORD-003',
-      date: '2026-02-01',
-      total: 6500,
-      status: 'completed',
-      deliveryTime: '42 minutes',
-      rating: 5,
-      isFavorite: true,
-      items: [
-        {
-          id: 'family-feast',
-          name: 'Family Feast',
-          price: 6500,
-          quantity: 1,
-          specialInstructions: 'Extra napkins please'
-        }
-      ]
-    }
-  ]);
+
+  const orders = orderState.orders;
 
   const formatPrice = (price: number): string => {
     return `₦${price.toLocaleString()}`;
@@ -103,34 +26,16 @@ const OrderHistory: React.FC = () => {
     });
   };
 
-  const toggleFavorite = (orderId: string) => {
-    setOrders(prev => prev.map(order => 
-      order.id === orderId 
-        ? { ...order, isFavorite: !order.isFavorite }
-        : order
-    ));
-    
-    const order = orders.find(o => o.id === orderId);
-    if (order) {
-      addToast({
-        type: order.isFavorite ? 'info' : 'success',
-        title: order.isFavorite ? 'Removed from Favorites' : 'Added to Favorites',
-        message: `${order.id} has been ${order.isFavorite ? 'removed from' : 'added to'} your favorites.`,
-        duration: 3000
-      });
-    }
-  };
-
-  const reorderItems = (order: Order) => {
+  const reorderItems = (order: any) => {
     setReorderingOrderId(order.id);
     
     // Add each item from the order to cart
-    order.items.forEach(item => {
+    order.items.forEach((item: any) => {
       const menuItem = {
         id: item.id,
         name: item.name,
         price: item.price,
-        description: item.description || '',
+        description: '',
         category: 'reorder',
         isPopular: false,
         isSpicy: false,
@@ -307,7 +212,15 @@ const OrderHistory: React.FC = () => {
                 {/* Action Buttons */}
                 <div className="flex gap-3">
                   <button
-                    onClick={() => toggleFavorite(order.id)}
+                    onClick={() => {
+                      toggleFavorite(order.id);
+                      addToast({
+                        type: 'success',
+                        title: order.isFavorite ? 'Removed from Favorites' : 'Added to Favorites',
+                        message: `${order.id} has been ${order.isFavorite ? 'removed from' : 'added to'} your favorites.`,
+                        duration: 2000
+                      });
+                    }}
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
                       order.isFavorite
                         ? 'bg-red-100 text-red-700 hover:bg-red-200'

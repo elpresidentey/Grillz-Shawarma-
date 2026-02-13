@@ -10,6 +10,7 @@ import OrderHistory from './components/OrderHistory';
 import ErrorBoundary from './components/ErrorBoundary';
 import GoogleAnalytics from './components/GoogleAnalytics';
 import { CartProvider } from './context/CartContext';
+import { OrderProvider } from './context/OrderContext';
 import { ToastProvider } from './components/Toast';
 import { useAnalytics } from './components/GoogleAnalytics';
 
@@ -45,26 +46,28 @@ function App() {
   return (
     <ErrorBoundary>
       <CartProvider>
-        <ToastProvider>
-          <GoogleAnalytics />
-          <div className="min-h-screen bg-white">
-            <Header />
-            <main className="animate-fadeIn">
-              {showOrderHistory ? (
-                <OrderHistory />
-              ) : (
-                <>
-                  <Hero />
-                  <Menu />
-                  <Locations />
-                  <Promotions />
-                </>
-              )}
-            </main>
-            <Footer />
-          </div>
-          <Cart />
-        </ToastProvider>
+        <OrderProvider>
+          <ToastProvider>
+            <GoogleAnalytics />
+            <div className="min-h-screen bg-white">
+              <Header />
+              <main className="animate-fadeIn">
+                {showOrderHistory ? (
+                  <OrderHistory />
+                ) : (
+                  <>
+                    <Hero />
+                    <Menu />
+                    <Locations />
+                    <Promotions />
+                  </>
+                )}
+              </main>
+              <Footer />
+            </div>
+            <Cart />
+          </ToastProvider>
+        </OrderProvider>
       </CartProvider>
     </ErrorBoundary>
   );

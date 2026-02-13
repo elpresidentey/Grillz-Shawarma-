@@ -15,6 +15,7 @@ import {
   BanknotesIcon
 } from '@heroicons/react/24/outline';
 import { useCart, useCartHelpers } from '../context/CartContext';
+import { useOrderHelpers } from '../context/OrderContext';
 import { useToast } from './Toast';
 
 type CheckoutStep = 'cart' | 'delivery' | 'payment' | 'review' | 'success';
@@ -41,6 +42,7 @@ const PAYMENT_METHODS = [
 const Cart: React.FC = () => {
   const { state, dispatch } = useCart();
   const { getCartItemCount, getCartSubtotal, getCartTax, getDeliveryFee, getFinalTotal } = useCartHelpers();
+  const { addOrder } = useOrderHelpers();
   const { addToast } = useToast();
   
   const [step, setStep] = useState<CheckoutStep>('cart');
@@ -123,6 +125,30 @@ const Cart: React.FC = () => {
 
     setTimeout(() => {
       const orderId = `#${Date.now().toString().slice(-7)}`;
+      const now = new Date();
+      const dateStr = now.toISOString().split('T')[0];
+      
+      const orderToSave = {
+        id: orderId,
+        date: dateStr,
+        total: getFinalTotal(),
+        paymentMethod: selectedPayment,
+        customer: {
+          name: formData.name,
+          phone: formData.phone,
+          address: formData.address
+        },
+        status: 'completed' as const,
+        items: state.items.map(item => ({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+          customizations: item.customizations,
+          specialInstructions: item.specialInstructions
+        })),
+        deliveryTime: '30-45'
+      };
       
       setOrderData({
         id: orderId,
@@ -136,6 +162,9 @@ const Cart: React.FC = () => {
         },
         time: '30-45'
       });
+
+      // Save order to history
+      addOrder(orderToSave);
 
       setIsProcessing(false);
       setStep('success');
