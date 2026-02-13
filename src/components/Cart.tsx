@@ -137,6 +137,7 @@ const Cart: React.FC = () => {
     dispatch({ type: 'TOGGLE_CART' });
   };
 
+  if (!state.isOpen) return null;
 
   // ========================
   // SUCCESS SCREEN
