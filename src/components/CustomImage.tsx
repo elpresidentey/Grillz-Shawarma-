@@ -8,6 +8,20 @@ interface CustomImageProps {
   height?: number;
 }
 
+// Master list of confirmed available images
+const AVAILABLE_IMAGES: Record<string, boolean> = {
+  'couple-combo.jpg': true,
+  'family-feast.jpg': true,
+  'office-lunch.jpg': true,
+  'classic-chicken-shawarma.jpg': true,
+  'beef-shawarma.jpg': true,
+  'mixed-shawarma.jpg': true,
+  'vegetarian-shawarma.jpg': true,
+  'spicy-lagos-fire.jpg': true,
+  'grilled-chicken.jpg': true,
+  'default-food.jpg': true
+};
+
 // Primary image per item; missing files fall back to default-food.jpg or placeholder
 const imageFileMap: Record<string, string[]> = {
   // Combo deals
@@ -44,10 +58,9 @@ const imageFileMap: Record<string, string[]> = {
 
 const buildImageSources = (imageName: string): string[] => {
   const normalized = imageName.trim();
-  const mapped = imageFileMap[normalized] ?? [`${normalized}.jpg`];
-  const withDefault = mapped.includes('default-food.jpg')
-    ? mapped
-    : [...mapped, 'default-food.jpg'];
+  const mapped = imageFileMap[normalized] ?? ['default-food.jpg'];
+  const filteredMapped = mapped.filter(img => AVAILABLE_IMAGES[img]);
+  const withDefault = filteredMapped.length > 0 ? filteredMapped : ['default-food.jpg'];
   return withDefault.map((file) => `/images/${file}`);
 };
 
@@ -60,36 +73,21 @@ const CustomImage: React.FC<CustomImageProps> = ({
 }) => {
   const sources = useMemo(() => buildImageSources(imageName), [imageName]);
   const [sourceIndex, setSourceIndex] = useState(0);
-  const [allFailed, setAllFailed] = useState(false);
 
   useEffect(() => {
     setSourceIndex(0);
-    setAllFailed(false);
   }, [imageName]);
 
   const handleImageError = () => {
     const next = sourceIndex + 1;
-    if (next >= sources.length) {
-      setAllFailed(true);
-    } else {
+    if (next < sources.length) {
       setSourceIndex(next);
     }
+    // If all sources fail, we fallback to default-food.jpg which should always exist
   };
 
-  if (allFailed) {
-    return (
-      <div
-        className={`flex items-center justify-center bg-gray-100 text-gray-400 ${className}`}
-        style={{ minHeight: height }}
-        role="img"
-        aria-label={alt}
-      >
-        <span className="text-xs font-medium">Photo</span>
-      </div>
-    );
-  }
-
-  const finalSrc = sources[Math.min(sourceIndex, sources.length - 1)];
+  // Always show an image tag, even with fallback default
+  const finalSrc = sources[Math.min(sourceIndex, sources.length - 1)] || '/images/default-food.jpg';
 
   return (
     <img

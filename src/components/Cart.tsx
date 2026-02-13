@@ -13,6 +13,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { useCart, useCartHelpers } from '../context/CartContext';
 import { useToast } from './Toast';
+import PurchaseSuccess from './PurchaseSuccess';
 
 interface CheckoutStep {
   id: number;
@@ -26,6 +27,15 @@ const Cart: React.FC = () => {
   const { addToast } = useToast();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [checkoutStep, setCheckoutStep] = useState(0);
+  const [showSuccessScreen, setShowSuccessScreen] = useState(false);
+  const [orderDetails, setOrderDetails] = useState({
+    orderId: '',
+    customerName: '',
+    customerPhone: '',
+    deliveryAddress: '',
+    totalAmount: 0,
+    estimatedDeliveryTime: ''
+  });
   const [customerInfo, setCustomerInfo] = useState({
     name: '',
     phone: '',
@@ -92,6 +102,20 @@ const Cart: React.FC = () => {
 
   const handleFinalCheckout = () => {
     setIsCheckingOut(true);
+    
+    // Generate order ID
+    const orderId = `ORD${Date.now()}${Math.floor(Math.random() * 1000)}`;
+    
+    // Set order details for success screen
+    setOrderDetails({
+      orderId,
+      customerName: customerInfo.name,
+      customerPhone: customerInfo.phone,
+      deliveryAddress: customerInfo.address,
+      totalAmount: getFinalTotal(),
+      estimatedDeliveryTime: '30-45 minutes'
+    });
+
     setTimeout(() => {
       addToast({
         type: 'success',
@@ -100,10 +124,22 @@ const Cart: React.FC = () => {
         duration: 6000
       });
       setIsCheckingOut(false);
+      setShowSuccessScreen(true);
       dispatch({ type: 'CLEAR_CART' });
-      dispatch({ type: 'TOGGLE_CART' });
       setCheckoutStep(0);
     }, 2000);
+  };
+
+  const handleSuccessScreenClose = () => {
+    setShowSuccessScreen(false);
+    dispatch({ type: 'TOGGLE_CART' });
+    // Reset customer info
+    setCustomerInfo({
+      name: '',
+      phone: '',
+      address: '',
+      email: ''
+    });
   };
 
   const renderCheckoutContent = () => {
@@ -480,6 +516,14 @@ const Cart: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Purchase Success Screen */}
+      {showSuccessScreen && (
+        <PurchaseSuccess 
+          orderDetails={orderDetails} 
+          onClose={handleSuccessScreenClose}
+        />
+      )}
     </div>
   );
 };
