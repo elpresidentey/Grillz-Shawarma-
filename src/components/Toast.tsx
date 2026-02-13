@@ -57,7 +57,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   return (
     <ToastContext.Provider value={{ toasts, addToast, removeToast }}>
       {children}
-      <div className="fixed top-4 right-4 z-50 space-y-2">
+      <div className="fixed top-4 right-4 z-50 space-y-1.5">
         {toasts.map(toast => (
           <div
             key={toast.id}
@@ -66,26 +66,26 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
               toast.type === 'error' ? 'bg-red-500' :
               toast.type === 'warning' ? 'bg-yellow-500' :
               'bg-blue-500'
-            } text-white p-4 rounded-lg shadow-lg max-w-sm w-full`}
+            } text-white px-3 py-2 rounded-lg shadow-lg max-w-xs w-full`}
           >
-            <div className="flex items-start">
-              <div className="flex-shrink-0 mr-3">
-                {toast.type === 'success' && <CheckCircleIcon className="h-6 w-6" />}
-                {toast.type === 'error' && <ExclamationTriangleIcon className="h-6 w-6" />}
-                {toast.type === 'warning' && <ExclamationTriangleIcon className="h-6 w-6" />}
-                {toast.type === 'info' && <InformationCircleIcon className="h-6 w-6" />}
+            <div className="flex items-start gap-2">
+              <div className="flex-shrink-0 mt-0.5">
+                {toast.type === 'success' && <CheckCircleIcon className="h-4 w-4" />}
+                {toast.type === 'error' && <ExclamationTriangleIcon className="h-4 w-4" />}
+                {toast.type === 'warning' && <ExclamationTriangleIcon className="h-4 w-4" />}
+                {toast.type === 'info' && <InformationCircleIcon className="h-4 w-4" />}
               </div>
-              <div className="flex-1">
-                <h4 className="font-semibold text-sm">{toast.title}</h4>
+              <div className="flex-1 min-w-0">
+                <h4 className="font-semibold text-xs">{toast.title}</h4>
                 {toast.message && (
-                  <p className="text-sm opacity-90 mt-1">{toast.message}</p>
+                  <p className="text-xs opacity-90 mt-0.5 truncate">{toast.message}</p>
                 )}
               </div>
               <button
                 onClick={() => removeToast(toast.id)}
-                className="flex-shrink-0 ml-4 text-white hover:text-gray-200 transition-colors"
+                className="flex-shrink-0 text-white hover:text-gray-200 transition-colors ml-1"
               >
-                <XMarkIcon className="h-5 w-5" />
+                <XMarkIcon className="h-4 w-4" />
               </button>
             </div>
           </div>
