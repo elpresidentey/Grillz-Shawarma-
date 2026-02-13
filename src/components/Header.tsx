@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { 
   Bars3Icon, 
   XMarkIcon, 
-  ShoppingCartIcon
+  ShoppingCartIcon,
+  FireIcon
 } from '@heroicons/react/24/outline';
 import { useCartHelpers } from '../context/CartContext';
 
@@ -45,10 +46,26 @@ const Header: React.FC = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center gap-4 min-h-14 py-2">
           {/* Logo - never shrink */}
-          <div className="flex-shrink-0 min-w-0">
-            <h1 className="text-base sm:text-lg font-bold text-gray-900 truncate">
-              Lagos Shawarma
-            </h1>
+          <div className="flex-shrink-0 min-w-0 flex items-center gap-2">
+            <div className="relative">
+              {/* Logo Badge Background */}
+              <div className="w-10 h-10 bg-gradient-to-br from-orange-500 via-orange-600 to-red-600 rounded-lg shadow-lg flex items-center justify-center transform hover:scale-110 transition-transform duration-300">
+                {/* Fire Icon */}
+                <FireIcon className="w-6 h-6 text-white drop-shadow-lg" />
+              </div>
+              {/* Corner Accent */}
+              <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-red-500 rounded-full shadow-md" />
+            </div>
+            
+            {/* Logo Text */}
+            <div className="min-w-0 flex flex-col">
+              <h1 className="text-base sm:text-lg font-black bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent truncate leading-tight">
+                GRILLZ
+              </h1>
+              <p className="text-xs text-gray-600 font-semibold truncate tracking-widest">
+                SHAWARMA
+              </p>
+            </div>
           </div>
 
           {/* Desktop Navigation - can shrink on narrow desktop */}

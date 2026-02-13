@@ -11,9 +11,9 @@ export const config = {
   estimatedDeliveryTime: process.env.REACT_APP_ESTIMATED_DELIVERY_TIME || '30-45',
   
   // Company Information
-  companyName: process.env.REACT_APP_COMPANY_NAME || 'Lagos Shawarma & Grills',
+  companyName: process.env.REACT_APP_COMPANY_NAME || 'Grillz Shawarma',
   companyPhone: process.env.REACT_APP_COMPANY_PHONE || '+234 800 000 0000',
-  companyEmail: process.env.REACT_APP_COMPANY_EMAIL || 'info@lagosshawarma.com',
+  companyEmail: process.env.REACT_APP_COMPANY_EMAIL || 'info@grillzshawarma.com',
   
   // Analytics
   googleAnalyticsId: process.env.REACT_APP_GOOGLE_ANALYTICS_ID,

@@ -39,7 +39,7 @@ const Footer: React.FC = () => {
           {/* Company Info */}
           <div className="col-span-1 lg:col-span-1">
             <h3 className="text-2xl font-bold text-primary-500 mb-4">
-              Lagos Shawarma & Grills
+              Grillz Shawarma
             </h3>
             <p className="text-gray-300 mb-4">
               Taste the Lagos Difference. Serving authentic shawarma and grilled delicacies with the finest ingredients.
@@ -115,7 +115,7 @@ const Footer: React.FC = () => {
         <div className="border-t border-gray-800 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">
-              © 2024 Lagos Shawarma & Grills. All rights reserved.
+              © 2024 Grillz Shawarma. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <a href="/privacy" className="text-gray-400 hover:text-primary-500 text-sm transition-colors">
