@@ -6,7 +6,7 @@ const Hero: React.FC = () => {
   return (
     <section
       id="home"
-      className="bg-white py-20 lg:py-32 border-b border-gray-100"
+      className="bg-white py-10 lg:py-16 border-b border-gray-100"
     >
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto lg:mx-0 text-center lg:text-left">
