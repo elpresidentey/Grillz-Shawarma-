@@ -1,8 +1,10 @@
 import React from 'react';
 import { useToast } from './Toast';
+import { useCart } from '../context/CartContext';
 
 const Promotions: React.FC = () => {
   const { addToast } = useToast();
+  const { dispatch } = useCart();
   
   const promotions = [
     {
@@ -133,7 +135,19 @@ const Promotions: React.FC = () => {
                       Save ₦{deal.savings.toLocaleString()}
                     </div>
                   </div>
-                  <button className="w-full btn-primary text-sm" style={{ fontFamily: 'Merriweather, serif' }}>
+                  <button 
+                    onClick={() => {
+                      dispatch({ type: 'TOGGLE_CART' });
+                      addToast({
+                        type: 'success',
+                        title: 'Ready to Order',
+                        message: `Check out our ${deal.name}!`,
+                        duration: 2000
+                      });
+                    }}
+                    className="w-full btn-primary text-sm hover:shadow-lg transition-shadow" 
+                    style={{ fontFamily: 'Merriweather, serif' }}
+                  >
                     Order Now
                   </button>
                 </div>
