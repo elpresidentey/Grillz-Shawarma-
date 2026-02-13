@@ -93,7 +93,9 @@ const saveCartToStorage = (items: CartItem[]) => {
   try {
     localStorage.setItem('lagos-shawarma-cart', JSON.stringify(items));
   } catch (error) {
-    console.error('Failed to save cart to localStorage:', error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Failed to save cart to localStorage:', error);
+    }
   }
 };
 
@@ -103,7 +105,9 @@ const loadCartFromStorage = (): CartItem[] => {
     const savedCart = localStorage.getItem('lagos-shawarma-cart');
     return savedCart ? JSON.parse(savedCart) : [];
   } catch (error) {
-    console.error('Failed to load cart from localStorage:', error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Failed to load cart from localStorage:', error);
+    }
     return [];
   }
 };

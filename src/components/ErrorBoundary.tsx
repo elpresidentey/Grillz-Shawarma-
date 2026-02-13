@@ -21,12 +21,18 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Error caught by boundary:', error, errorInfo);
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error caught by boundary:', error, errorInfo);
+    }
     
     // Log error to monitoring service in production
+    this.logErrorToService(error, errorInfo);
+  }
+
+  private logErrorToService(error: Error, errorInfo: ErrorInfo) {
     if (process.env.NODE_ENV === 'production') {
-      // TODO: Send error to monitoring service
-      // sendErrorToMonitoring(error, errorInfo);
+      // Send error to monitoring service (e.g., Sentry, LogRocket)
+      // Example: sentryClient.captureException(error, { contexts: { react: errorInfo } });
     }
   }
 

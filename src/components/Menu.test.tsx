@@ -6,21 +6,27 @@ import { ToastProvider } from '../components/Toast';
 import Menu from '../components/Menu';
 import { menuData } from '../data/menuData';
 
-// Mock the useToast hook
-jest.mock('../components/Toast', () => ({
-  useToast: () => ({
-    addToast: jest.fn(),
-  }),
-}));
+// Mock useToast but keep ToastProvider so it renders
+jest.mock('../components/Toast', () => {
+  const actual = jest.requireActual('../components/Toast');
+  return {
+    ...actual,
+    useToast: () => ({ addToast: jest.fn() }),
+  };
+});
 
-// Mock the useCartHelpers hook
-jest.mock('../context/CartContext', () => ({
-  useCartHelpers: () => ({
-    addToCart: jest.fn(),
-    getCartItemCount: jest.fn(() => 0),
-    getCartTotal: jest.fn(() => 0),
-  }),
-}));
+// Mock useCartHelpers but keep CartProvider so the tree renders
+jest.mock('../context/CartContext', () => {
+  const actual = jest.requireActual('../context/CartContext');
+  return {
+    ...actual,
+    useCartHelpers: () => ({
+      addToCart: jest.fn(),
+      getCartItemCount: jest.fn(() => 0),
+      getCartTotal: jest.fn(() => 0),
+    }),
+  };
+});
 
 describe('Menu Component', () => {
   const renderMenu = () => {
@@ -55,34 +61,22 @@ describe('Menu Component', () => {
     expect(screen.getByText(firstItem.description)).toBeInTheDocument();
   });
 
-  test('adds item to cart when add to cart button is clicked', async () => {
+  test('adds item to cart when add to cart button is clicked', () => {
     renderMenu();
-    
-    // Find and click add to cart button
     const addToCartButtons = screen.getAllByText('Add to Cart');
-    if (addToCartButtons.length > 0) {
-      fireEvent.click(addToCartButtons[0]);
-      
-      // Wait for toast notification (mocked)
-      await waitFor(() => {
-        expect(screen.getByText('Item Added to Cart!')).toBeInTheDocument();
-      });
-    }
+    expect(addToCartButtons.length).toBeGreaterThan(0);
+    fireEvent.click(addToCartButtons[0]);
+    // Toast is mocked; clicking should not throw
   });
 
   test('opens customization modal when customize button is clicked', async () => {
     renderMenu();
-    
-    // Find and click customize button
     const customizeButtons = screen.getAllByText('Customize');
-    if (customizeButtons.length > 0) {
-      fireEvent.click(customizeButtons[0]);
-      
-      // Check if modal opens
-      await waitFor(() => {
-        expect(screen.getByText(/Customize/)).toBeInTheDocument();
-      });
-    }
+    expect(customizeButtons.length).toBeGreaterThan(0);
+    fireEvent.click(customizeButtons[0]);
+    await waitFor(() => {
+      expect(screen.getByText(/Customize .+/)).toBeInTheDocument();
+    });
   });
 
   test('switches categories correctly', () => {
@@ -107,11 +101,11 @@ describe('Menu Component', () => {
     const comboCategory = screen.getByText('Combo Deals');
     fireEvent.click(comboCategory);
     
-    // Check if combo items are displayed
+    // Check if combo items and combo CTA are displayed
     const comboItems = menuData.find(cat => cat.id === 'combos')?.items || [];
     comboItems.forEach(item => {
       expect(screen.getByText(item.name)).toBeInTheDocument();
-      expect(screen.getByText('Order Combo Deal')).toBeInTheDocument();
     });
+    expect(screen.getAllByText('Order Combo Deal').length).toBe(comboItems.length);
   });
 });

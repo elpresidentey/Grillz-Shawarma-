@@ -6,28 +6,30 @@ const Hero: React.FC = () => {
   return (
     <section
       id="home"
-      className="section-gradient py-16 lg:py-28 border-b border-orange-100"
+      className="bg-white py-20 lg:py-32 border-b border-gray-100"
     >
       <div className="container mx-auto px-4">
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-          {/* Text content */}
-          <div className="text-center lg:text-left">
-            <p className="inline-flex items-center rounded-full bg-orange-100 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-orange-700 mb-5">
-              Fresh · Flame-Grilled · Lagos
-            </p>
-            <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
-              Taste the
-              <span className="gradient-text"> Lagos Difference</span>
-            </h1>
+        <div className="max-w-3xl mx-auto lg:mx-0 text-center lg:text-left">
+          {/* Tagline */}
+          <p className="inline-flex items-center rounded-full bg-orange-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-orange-600 mb-8">
+            Fresh · Flame-Grilled · Lagos
+          </p>
 
-            <p className="text-lg lg:text-xl text-gray-700 leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0">
-              Experience authentic shawarma and grilled delicacies made with the
-              finest ingredients. From classic chicken wraps to spicy Lagos
-              fire, every bite is crafted for serious flavor.
-            </p>
+          {/* Main Heading */}
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-gray-900 mb-8 leading-tight">
+            Taste the <br />
+            <span className="gradient-text inline-block mt-3">Lagos Difference</span>
+          </h1>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center mb-10">
-            <button 
+          {/* Description */}
+          <p className="text-lg sm:text-xl lg:text-2xl text-gray-700 leading-relaxed mb-12 max-w-2xl mx-auto lg:mx-0 font-medium">
+            Experience authentic shawarma and grilled delicacies made with the
+            finest ingredients. Every bite is crafted for serious flavor.
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 mb-16 justify-center lg:justify-start">
+            <button
               onClick={() => {
                 const menuSection = document.getElementById('menu');
                 if (menuSection) {
@@ -40,11 +42,11 @@ const Hero: React.FC = () => {
                   });
                 }
               }}
-              className="btn-primary w-full sm:w-auto text-base lg:text-lg"
+              className="btn-primary w-full sm:w-auto text-lg lg:text-xl whitespace-nowrap py-4 px-8"
             >
               Order Now
             </button>
-            <button 
+            <button
               onClick={() => {
                 const locationsSection = document.getElementById('locations');
                 if (locationsSection) {
@@ -57,68 +59,28 @@ const Hero: React.FC = () => {
                   });
                 }
               }}
-              className="btn-outline w-full sm:w-auto text-base lg:text-lg"
+              className="btn-outline w-full sm:w-auto text-lg lg:text-xl whitespace-nowrap py-4 px-8"
             >
               View Locations
             </button>
           </div>
 
-            <div className="grid grid-cols-3 gap-4 max-w-md mx-auto lg:mx-0">
-              <div className="rounded-2xl bg-white/80 shadow-md px-4 py-3 backdrop-blur-sm">
-                <div className="text-2xl font-extrabold text-gray-900 mb-1">
-                  4.8
-                </div>
-                <div className="text-xs font-semibold uppercase tracking-wide text-gray-500">
-                  Customer Rating
-                </div>
-                <div className="text-xs text-gray-400 mt-1">2,500+ reviews</div>
-              </div>
-              <div className="rounded-2xl bg-white/80 shadow-md px-4 py-3 backdrop-blur-sm">
-                <div className="text-2xl font-extrabold text-gray-900 mb-1">
-                  30min
-                </div>
-                <div className="text-xs font-semibold uppercase tracking-wide text-gray-500">
-                  Average Delivery
-                </div>
-                <div className="text-xs text-gray-400 mt-1">Across Lagos</div>
-              </div>
-              <div className="rounded-2xl bg-white/80 shadow-md px-4 py-3 backdrop-blur-sm">
-                <div className="text-2xl font-extrabold text-gray-900 mb-1">
-                  FREE
-                </div>
-                <div className="text-xs font-semibold uppercase tracking-wide text-gray-500">
-                  Delivery
-                </div>
-                <div className="text-xs text-gray-400 mt-1">Above ₦3,000</div>
-              </div>
+          {/* Stats */}
+          <div className="grid grid-cols-3 gap-4 sm:gap-6 max-w-2xl mx-auto lg:mx-0">
+            <div className="rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 shadow-md px-4 py-5 sm:px-6 sm:py-6">
+              <div className="text-3xl sm:text-4xl font-black text-gray-900 mb-2">4.8</div>
+              <div className="text-xs sm:text-sm font-bold uppercase tracking-wider text-gray-600 mb-1">Rating</div>
+              <div className="text-xs sm:text-sm text-gray-500 font-medium">2,500+ reviews</div>
             </div>
-          </div>
-
-          {/* Hero image */}
-          <div className="relative max-w-xl mx-auto lg:max-w-none">
-            <div className="absolute -inset-4 rounded-3xl bg-gradient-to-tr from-orange-100 via-amber-100 to-orange-50 opacity-80 blur-2xl" />
-            <div className="relative overflow-hidden rounded-3xl border border-orange-100 bg-white shadow-xl shadow-orange-100">
-              <img
-                src="/images/classic-chicken-shawarma.jpg"
-                alt="Fresh Lagos-style shawarma wrap"
-                className="h-72 w-full object-cover sm:h-80 lg:h-96"
-              />
-              <div className="absolute inset-x-4 bottom-4 flex items-center justify-between rounded-2xl bg-black/60 px-4 py-3 text-xs text-white backdrop-blur">
-                <div>
-                  <p className="font-semibold">Signature Lagos Shawarma</p>
-                  <p className="text-[11px] text-orange-100">
-                    Flame-grilled chicken, creamy garlic sauce & fresh veggies.
-                  </p>
-                </div>
-                <div className="hidden sm:flex flex-col items-end">
-                  <span className="rounded-full bg-orange-500 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide">
-                    Best Seller
-                  </span>
-                  <span className="mt-1 text-[11px] text-orange-100">
-                    From ₦2,800
-                  </span>
-                </div>
-              </div>
+            <div className="rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 shadow-md px-4 py-5 sm:px-6 sm:py-6">
+              <div className="text-3xl sm:text-4xl font-black text-gray-900 mb-2">30<span className="text-lg">min</span></div>
+              <div className="text-xs sm:text-sm font-bold uppercase tracking-wider text-gray-600 mb-1">Delivery</div>
+              <div className="text-xs sm:text-sm text-gray-500 font-medium">Average time</div>
+            </div>
+            <div className="rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 shadow-md px-4 py-5 sm:px-6 sm:py-6">
+              <div className="text-3xl sm:text-4xl font-black text-gray-900 mb-2">FREE</div>
+              <div className="text-xs sm:text-sm font-bold uppercase tracking-wider text-gray-600 mb-1">Delivery</div>
+              <div className="text-xs sm:text-sm text-gray-500 font-medium">Above ₦3,000</div>
             </div>
           </div>
         </div>

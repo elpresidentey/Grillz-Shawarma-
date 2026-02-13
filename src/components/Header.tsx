@@ -43,16 +43,16 @@ const Header: React.FC = () => {
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-14">
-          {/* Logo */}
-          <div className="flex-shrink-0">
-            <h1 className="text-lg font-bold text-gray-900">
+        <div className="flex justify-between items-center gap-4 min-h-14 py-2">
+          {/* Logo - never shrink */}
+          <div className="flex-shrink-0 min-w-0">
+            <h1 className="text-base sm:text-lg font-bold text-gray-900 truncate">
               Lagos Shawarma
             </h1>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
+          {/* Desktop Navigation - can shrink on narrow desktop */}
+          <nav className="hidden md:flex flex-shrink items-center gap-1 lg:gap-2 xl:space-x-2 xl:gap-0 min-w-0">
             {navigation.map((item) => (
               <a
                 key={item.name}
@@ -64,64 +64,66 @@ const Header: React.FC = () => {
                     element.scrollIntoView({ behavior: 'smooth' });
                   }
                 }}
-                className="text-gray-600 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors"
+                className="text-gray-600 hover:text-gray-900 px-2 py-2 text-sm font-medium transition-colors whitespace-nowrap"
               >
                 {item.name}
               </a>
             ))}
           </nav>
 
-          {/* Desktop Actions */}
-          <div className="hidden md:flex items-center space-x-4">
-            <button 
+          {/* Desktop CTAs - never shrink, no text overlap */}
+          <div className="hidden md:flex items-center flex-shrink-0 gap-2">
+            <button
               onClick={() => {
                 const menuSection = document.getElementById('menu');
                 if (menuSection) {
                   menuSection.scrollIntoView({ behavior: 'smooth' });
                 }
               }}
-              className="bg-gray-900 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-md transition-colors text-sm"
+              className="bg-gray-900 hover:bg-gray-800 text-white font-medium py-2 px-3 sm:px-4 rounded-md transition-colors text-sm whitespace-nowrap"
             >
               Order Now
             </button>
-            <button 
+            <button
               onClick={() => {
-                // Dispatch custom event to show order history
                 window.dispatchEvent(new CustomEvent('showOrderHistory'));
               }}
-              className="text-gray-600 hover:text-gray-900 font-medium py-2 px-4 rounded-md transition-colors text-sm border border-gray-300"
+              className="text-gray-600 hover:text-gray-900 font-medium py-2 px-3 sm:px-4 rounded-md transition-colors text-sm border border-gray-300 whitespace-nowrap"
             >
               Order History
             </button>
-            <button 
+            <button
               onClick={openCart}
-              className="relative p-2 text-gray-600 hover:text-gray-900 transition-colors"
+              className="relative flex-shrink-0 p-2 text-gray-600 hover:text-gray-900 transition-colors rounded-md hover:bg-gray-50"
+              aria-label={`Cart, ${cartCount} items`}
             >
               <ShoppingCartIcon className="h-5 w-5" />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-gray-900 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center text-[10px]">
-                  {cartCount}
+                <span className="absolute top-0 right-0 min-w-[18px] h-[18px] px-1 bg-gray-900 text-white text-[10px] font-semibold rounded-full flex items-center justify-center">
+                  {cartCount > 99 ? '99+' : cartCount}
                 </span>
               )}
             </button>
           </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center space-x-2">
-            <button 
+          {/* Mobile: cart + hamburger */}
+          <div className="md:hidden flex items-center gap-1 flex-shrink-0">
+            <button
               onClick={openCart}
-              className="p-2 text-gray-600 hover:text-gray-900"
+              className="relative p-2.5 text-gray-600 hover:text-gray-900 rounded-md hover:bg-gray-50"
+              aria-label={`Cart, ${cartCount} items`}
             >
               <ShoppingCartIcon className="h-5 w-5" />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-gray-900 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center text-[10px]">
-                  {cartCount}
+                <span className="absolute top-0.5 right-0.5 min-w-[18px] h-[18px] px-1 bg-gray-900 text-white text-[10px] font-semibold rounded-full flex items-center justify-center">
+                  {cartCount > 99 ? '99+' : cartCount}
                 </span>
               )}
             </button>
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 text-gray-600 hover:text-gray-900"
+              className="p-2.5 text-gray-600 hover:text-gray-900 rounded-md hover:bg-gray-50"
+              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
             >
               {isMenuOpen ? (
                 <XMarkIcon className="h-5 w-5" />
@@ -140,13 +142,13 @@ const Header: React.FC = () => {
                 <a
                   key={item.name}
                   href={item.href}
-                  className="text-gray-600 hover:text-gray-900 block px-3 py-2 text-base font-medium"
+                  className="text-gray-600 hover:text-gray-900 block px-3 py-2.5 text-base font-medium rounded-md hover:bg-gray-50"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
                 </a>
               ))}
-              <button 
+              <button
                 onClick={() => {
                   const menuSection = document.getElementById('menu');
                   if (menuSection) {
@@ -154,9 +156,18 @@ const Header: React.FC = () => {
                   }
                   setIsMenuOpen(false);
                 }}
-                className="bg-gray-900 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-md transition-colors w-full text-sm"
+                className="w-full text-left px-3 py-2.5 text-base font-medium rounded-md bg-gray-900 text-white hover:bg-gray-800"
               >
                 Order Now
+              </button>
+              <button
+                onClick={() => {
+                  window.dispatchEvent(new CustomEvent('showOrderHistory'));
+                  setIsMenuOpen(false);
+                }}
+                className="w-full text-left px-3 py-2.5 text-base font-medium rounded-md text-gray-700 border border-gray-300 hover:bg-gray-100"
+              >
+                Order History
               </button>
             </div>
           </div>
